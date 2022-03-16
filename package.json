@@ -8,9 +8,10 @@
     "start": "node server.js",
     "dev": "nodemon --config nodemon.json src/index.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
-    "dev:server": "nodemon --watch './**/*.ts' --exec 'ts-node' server.ts"
+    "dev:server": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
   },
   "dependencies": {
+    "@sinclair/typebox": "^0.23.4",
     "fastify": "^3.27.4"
   },
   "devDependencies": {
