@@ -3,8 +3,8 @@ import { Category, PrismaClient } from "@prisma/client";
 export class CategoryController {
   private prisma: PrismaClient;
 
-  constructor() {
-    this.prisma = new PrismaClient();
+  constructor(prisma_client: PrismaClient = new PrismaClient()) {
+    this.prisma = prisma_client;
   }
 
   public async getCategories(): Promise<Category[]> {

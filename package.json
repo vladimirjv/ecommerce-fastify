@@ -1,24 +1,32 @@
 {
   "name": "ecommerce-fastify",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
+    "json2ts": "json2ts -i ./src/schemas/json --output ./src/schemas/types --cwd ./src/schemas/json",
+    "dev": "concurrently \"npm:dev:*\" ",
+    "dev:server": "nodemon --config nodemon.json src/index.ts",
+    "dev:json2ts": "nodemon --watch './schemas/**/*.json' --exec npm run json2ts",
+    "debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
+    "pre:build": "npm run json2ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node server.js",
-    "dev": "nodemon --config nodemon.json src/index.ts",
-    "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
-    "dev:server": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
+    "start": "node server.js"
   },
   "dependencies": {
     "@prisma/client": "^3.11.0",
-    "@sinclair/typebox": "^0.23.4",
     "@types/json-schema": "^7.0.10",
     "ajv": "^8.10.0",
-    "fastify": "^3.27.4"
+    "concurrently": "^7.0.0",
+    "fastify": "^3.27.4",
+    "fastify-auth0-verify": "^0.7.0",
+    "fastify-plugin": "^3.0.1",
+    "json-schema-to-typescript": "^10.1.5"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
+    "json-schema-to-ts": "^1.6.5",
     "nodemon": "^2.0.15",
     "prisma": "^3.11.0",
     "ts-node": "^10.7.0",
