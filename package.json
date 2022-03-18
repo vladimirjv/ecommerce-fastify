@@ -5,12 +5,12 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "json2ts": "json2ts -i ./src/schemas/json --output ./src/schemas/types --cwd ./src/schemas/json",
+    "json2ts": "json2ts -i ./schemas --output ./src/schemas/types --cwd ./schemas/",
     "dev": "concurrently \"npm:dev:*\" ",
     "dev:server": "nodemon --config nodemon.json src/index.ts",
     "dev:json2ts": "nodemon --watch './schemas/**/*.json' --exec npm run json2ts",
     "debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
-    "pre:build": "npm run json2ts",
+    "prebuild": "npm run json2ts",
     "build": "tsc -p tsconfig.json",
     "start": "node server.js"
   },
