@@ -1,4 +1,5 @@
 import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
+import { RouteGenericInterface } from "fastify/types/route";
 import { CategoryController } from "../controllers";
 import { CategoryPostBodySchema } from "../schemas/types/CategoryPostBodySchema";
 
@@ -30,6 +31,16 @@ export const categoriesRoutes: FastifyPluginCallback = async (
       reply.send(newCategory);
     }
   );
+
+  // const route: RouteGenericInterface = {
+  //   Params: {}
+  // }
+  fastify.get<{Params: {categoryID: string}}>("/categories/:categoryID", async (request, reply) => {
+    const { categoryID } =request.params
+    const category = await categoryController.getCategoryByID(Number(categoryID));
+    console.log(category);
+    reply.send(category);
+  })
 
   done();
 };
