@@ -1,47 +1,48 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
+  provider = "prisma-client-js"
+  // previewFeatures = ["mongoDb"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Product {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  price       Int
-  available   Boolean
-  created_at  DateTime   @db.Date @default(now())
-  updated_at  DateTime   @db.Date
-  categoryIDs String[]   @db.ObjectId
-  categories  Category[] @relation(fields: [categoryIDs], references: [id])
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @db.VarChar(255)
+  description          String
+  price                Decimal                @db.Money
+  available            Boolean                @default(true)
+  created_at           DateTime               @default(now()) @db.Date
+  updated_at           DateTime               @updatedAt @db.Date
+  CategoriesOnProducts CategoriesOnProducts[]
 }
+
+// id          String     @id @default(auto()) @map("_id") @db.ObjectId // MONGODB
+// categoryIDs String[]   @db.ObjectId // MONGODB
+// categories  Category[] @relation(fields: [categoryIDs], references: [id]) // MONGODB
 
 model Category {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  created_at    DateTime @db.Date @default(now())
-  updated_at    DateTime @db.Date
-  productsIDs   String[] @db.ObjectId
-  products      Product[]   @relation(fields: [productsIDs], references: [id])
+  // id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @db.VarChar(255)
+  created_at           DateTime               @default(now()) @db.Date
+  updated_at           DateTime?              @updatedAt @db.Date
+  CategoriesOnProducts CategoriesOnProducts[]
 }
 
-// model Category {
-//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name       String
-//   created_at DateTime @db.Date
-//   updated_at DateTime @db.Date
-//   products   Product[] @relation(references: [id])
-// }
+model CategoriesOnProducts {
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  assignedAt DateTime @default(now())
+  assignedBy Int
 
-// model Product {
-//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-//   created_at  DateTime @db.Date
-//   description String
-//   name        String
-//   updated_at  DateTime @db.Date
-//   categories  Category[] @relation(references: [id])
-//  }
+
+  @@id([productId, categoryId])
+}
+
+// productsIDs String[]  @db.ObjectId
+// products    Product[] @relation(fields: [productsIDs], references: [id])

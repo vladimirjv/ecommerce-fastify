@@ -1,0 +1,19 @@
+version: '3'
+services:
+  pg: 
+    image: postgres
+    restart: "always"
+    expose: 
+      - "5432"
+    ports: 
+      - "5432:5432"
+    env_file:
+      - ./.env
+    volumes: 
+      - "./db/data:/var/lib/postgresql/data"
+      - "./db/init:/docker-entrypoint-initdb.d"
+      # - "db:/var/lib/postgresql/data"
+      # - "db:/var/lib/postgresql"
+# volumes:
+#   db:
+#     driver: local

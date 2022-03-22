@@ -1,4 +1,5 @@
 import { Category, PrismaClient } from "@prisma/client";
+import { CategoryPostBodySchema } from "../schemas/types/CategoryPostBodySchema";
 
 export class CategoryController {
   private prisma: PrismaClient;
@@ -12,6 +13,14 @@ export class CategoryController {
     return categories;
   }
 
-  public createCategory() {
+  public async createCategory(category: CategoryPostBodySchema): Promise<Category> {
+    const { name } = category;
+    try {
+      const newCategory = await this.prisma.category.create({ data: {name} });
+      return newCategory;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

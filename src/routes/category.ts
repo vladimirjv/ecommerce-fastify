@@ -1,5 +1,6 @@
 import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
 import { CategoryController } from "../controllers";
+import { CategoryPostBodySchema } from "../schemas/types/CategoryPostBodySchema";
 
 export const categoriesRoutes: FastifyPluginCallback = async (
   fastify,
@@ -16,7 +17,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     }
   );
 
-  fastify.post(
+  fastify.post<{Body: CategoryPostBodySchema}>(
     "/categories",
     {
       schema: {
@@ -25,8 +26,8 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     },
     async (request, reply) => {
       const body = request.body;
-      console.log(body);
-      reply.send(body);
+      const newCategory = await categoryController.createCategory(body);
+      reply.send(newCategory);
     }
   );
 
