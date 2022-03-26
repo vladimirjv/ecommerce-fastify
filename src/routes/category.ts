@@ -1,4 +1,4 @@
-import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyPluginCallback, FastifyReply, FastifyRequest, RouteShorthandOptions, RouteShorthandOptionsWithHandler } from "fastify";
 import { CategoryController } from "../controllers";
 import {
   CategoryParamId,
@@ -23,7 +23,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
   );
 
   // CREATE Category
-  fastify.post<{ Body: CategoryPostBody}>(
+  fastify.post<{ Body: CategoryPostBody }>(
     "/categories",
     {
       schema: {
@@ -61,5 +61,21 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     }
   );
 
+  //DELETE Category
+  fastify.delete<{ Params: CategoryParamId }>("/categories/:categoryID", {
+    schema: { 
+      params: { $ref: "CategoryParamId#"},
+    }
+  }, async (request, reply) => {
+    const { categoryID } = request.params
+    try {
+      const deletedCategory = await categoryController.deleteCategory(Number(categoryID));
+      reply.send(deletedCategory);
+    } catch (error: any) {
+      reply.notFound(error.message);
+    }
+  })
+
   done();
 };
+

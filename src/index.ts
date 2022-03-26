@@ -1,4 +1,5 @@
 import fastify, { FastifyInstance } from "fastify";
+import FastifySensible from "fastify-sensible";
 import { routesModule } from "./routes";
 import { PrismaPlugin } from "./db";
 import { addSchemas } from "./schemas";
@@ -20,6 +21,7 @@ const server: FastifyInstance = fastify({
 // })
 addSchemas(server);
 server.register(PrismaPlugin);
+server.register(FastifySensible);
 server.register(routesModule, { prefix: "/api" });
 
 server.get("/ping", async (request, reply) => {

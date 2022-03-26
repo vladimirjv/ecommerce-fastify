@@ -1,4 +1,5 @@
 import { Category, PrismaClient } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { CategoryDeleteBody, CategoryPostBody, CategoryUpdateBody } from "../schemas/types/CategoryBaseSchema";
 
 export class CategoryController {
@@ -40,14 +41,22 @@ export class CategoryController {
   public async updateCategory(categoryID: number, category: CategoryUpdateBody): Promise<Category> {
     const updatedCategory = await this.prisma.category.update({
       data: { ...category },
-      where: {id: categoryID},
+      where: { id: categoryID },
     })
     return updatedCategory;
   }
 
-  public async deleteCategory(category: CategoryDeleteBody): Promise<Category> {
-    const { id } = category;
-    const deleteCategory = await this.prisma.category.delete({where: {id}});
-    return deleteCategory;
+  public async deleteCategory(categoryId: number): Promise<Category> {
+    try {
+      const deleteCategory = await this.prisma.category.delete({ where: { id: categoryId } });
+      return deleteCategory;
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw Error("Category to delete does not exist", {cause: error});
+        }
+      }
+      throw Error("Unknown error", {cause: error as Error});
+    }
   }
 }
