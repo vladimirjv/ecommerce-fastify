@@ -1,7 +1,10 @@
 import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
-import { RouteGenericInterface } from "fastify/types/route";
 import { CategoryController } from "../controllers";
-import { CategoryPostBodySchema } from "../schemas/types/CategoryPostBodySchema";
+import {
+  CategoryParamId,
+  CategoryPostBody,
+  CategoryUpdateBody
+} from "../schemas/types/CategoryBaseSchema";
 
 export const categoriesRoutes: FastifyPluginCallback = async (
   fastify,
@@ -10,6 +13,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
 ) => {
   const categoryController = new CategoryController(fastify.prisma);
 
+  // GET ALL Categories
   fastify.get(
     "/categories",
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -18,11 +22,12 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     }
   );
 
-  fastify.post<{Body: CategoryPostBodySchema}>(
+  // CREATE Category
+  fastify.post<{ Body: CategoryPostBody}>(
     "/categories",
     {
       schema: {
-        body: { $ref: "CategoryPostBodySchema#" }
+        body: { $ref: "CategoryPostBody#" }
       }
     },
     async (request, reply) => {
@@ -32,15 +37,29 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     }
   );
 
-  // const route: RouteGenericInterface = {
-  //   Params: {}
-  // }
-  fastify.get<{Params: {categoryID: string}}>("/categories/:categoryID", async (request, reply) => {
-    const { categoryID } =request.params
+  // GET ONE Category
+  fastify.get<{ Params: CategoryParamId }>("/categories/:categoryID", async (request, reply) => {
+    const { categoryID } = request.params;
     const category = await categoryController.getCategoryByID(Number(categoryID));
     console.log(category);
     reply.send(category);
-  })
+  });
+
+  //UPDATE Category
+  fastify.put<{ Params: CategoryParamId; Body: CategoryUpdateBody }>(
+    "/categories/:categoryID",
+    {
+      schema: { 
+        params: { $ref: "CategoryParamId#"},
+        body: { $ref: "CategoryUpdateBody#"},
+      }
+    },
+    async (request, reply) => {
+      const { categoryID } = request.params;
+      const category = await categoryController.updateCategory(Number(categoryID), request.body);
+      reply.send(category);
+    }
+  );
 
   done();
 };

@@ -1,5 +1,5 @@
-import { CategoryPostBodySchema } from "../schemas/types/CategoryPostBodySchema";
 import { Category, PrismaClient } from "@prisma/client";
+import { CategoryDeleteBody, CategoryPostBody, CategoryUpdateBody } from "../schemas/types/CategoryBaseSchema";
 
 export class CategoryController {
   private prisma: PrismaClient;
@@ -14,7 +14,7 @@ export class CategoryController {
   }
 
   public async createCategory(
-    category: CategoryPostBodySchema
+    category: CategoryPostBody
   ): Promise<Category> {
     const { name } = category;
     try {
@@ -35,5 +35,19 @@ export class CategoryController {
     } catch (error) {
       throw error;
     }
+  }
+
+  public async updateCategory(categoryID: number, category: CategoryUpdateBody): Promise<Category> {
+    const updatedCategory = await this.prisma.category.update({
+      data: { ...category },
+      where: {id: categoryID},
+    })
+    return updatedCategory;
+  }
+
+  public async deleteCategory(category: CategoryDeleteBody): Promise<Category> {
+    const { id } = category;
+    const deleteCategory = await this.prisma.category.delete({where: {id}});
+    return deleteCategory;
   }
 }

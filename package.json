@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "json2ts": "json2ts -i ./schemas --output ./src/schemas/types --cwd ./schemas/",
+    "json2ts": "json2ts -i ./schemas --output ./src/schemas/types --cwd ./schemas/ --$refOptions.dereference.circular=true",
     "dev": "concurrently \"npm:dev:*\" ",
     "dev:server": "nodemon --config nodemon.json src/index.ts",
     "dev:json2ts": "nodemon --watch './schemas/**/*.json' --exec npm run json2ts",

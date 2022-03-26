@@ -8,7 +8,7 @@ import "dotenv/config";
 const loggerOptions = {
   prettyPrint: true,
 };
-const logger = env["ENVIRONMENT"] === "DEVELOPMENT" ? loggerOptions : false;
+const logger = env["ENVIRONMENT"] === "development" ? loggerOptions : false;
 
 const server: FastifyInstance = fastify({
   logger,
