@@ -8,6 +8,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  firstName String?
+  lastName String?
+  password String?
+}
+
 model Product {
   id                   Int                    @id @default(autoincrement())
   name                 String                 @db.VarChar(255)
@@ -18,10 +26,6 @@ model Product {
   updated_at           DateTime               @updatedAt @db.Date
   CategoriesOnProducts CategoriesOnProducts[]
 }
-
-// id          String     @id @default(auto()) @map("_id") @db.ObjectId // MONGODB
-// categoryIDs String[]   @db.ObjectId // MONGODB
-// categories  Category[] @relation(fields: [categoryIDs], references: [id]) // MONGODB
 
 model Category {
   // id          String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -43,6 +47,3 @@ model CategoriesOnProducts {
 
   @@id([productId, categoryId])
 }
-
-// productsIDs String[]  @db.ObjectId
-// products    Product[] @relation(fields: [productsIDs], references: [id])
