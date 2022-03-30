@@ -31,5 +31,14 @@ export const adminRoutes: FastifyPluginCallback = async (
     reply.send(users);
   })
 
+  fastify.post("/admin/login", async (request, reply) => {
+    try {
+      const user = await adminController.login(request.body as any);
+      reply.send(user);
+    } catch (error) {
+      throw error
+    }
+  })
+
   done();
 };

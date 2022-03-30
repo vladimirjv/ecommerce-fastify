@@ -16,6 +16,9 @@ export const categoriesRoutes: FastifyPluginCallback = async (
   // GET ALL Categories
   fastify.get(
     "/categories",
+    {
+      preHandler: fastify.auth([fastify.authenticate])
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const cat = await categoryController.getCategories();
       reply.send(cat);
