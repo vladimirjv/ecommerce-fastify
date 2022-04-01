@@ -10,7 +10,7 @@ export const adminRoutes: FastifyPluginCallback = async (
   const adminController = new AdminController(fastify.prisma);
 
   // SIGN UP
-  fastify.post("/admin/signup", async (request, reply) => {
+  fastify.post("/admin/signup", {schema: {tags: ["admin"]}}, async (request, reply) => {
     try {
       const registeredUser = await adminController.register(request.body as any);
       reply.send(registeredUser);
@@ -26,12 +26,12 @@ export const adminRoutes: FastifyPluginCallback = async (
   });
 
   // GET users
-  fastify.get("/admin/users", async (request, reply) => {
+  fastify.get("/admin/users", {schema: {tags: ["admin"]}}, async (request, reply) => {
     const users = await adminController.getUsers();
     reply.send(users);
   })
 
-  fastify.post("/admin/login", async (request, reply) => {
+  fastify.post("/admin/login", {schema: {tags: ["admin"]}}, async (request, reply) => {
     try {
       const user = await adminController.login(request.body as any);
       reply.send(user);

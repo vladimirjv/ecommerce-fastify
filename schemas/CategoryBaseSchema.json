@@ -20,6 +20,7 @@
     "CategoryParamId": {
       "title": "CategoryParamId",
       "$id": "CategoryParamId",
+      "type": "object",
       "properties": {
         "categoryID": { "type": "string" }
       },

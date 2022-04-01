@@ -1,4 +1,4 @@
-import { FastifyPluginCallback, FastifyReply, FastifyRequest, RouteShorthandOptions, RouteShorthandOptionsWithHandler } from "fastify";
+import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
 import { CategoryController } from "../controllers";
 import {
   CategoryParamId,
@@ -17,7 +17,8 @@ export const categoriesRoutes: FastifyPluginCallback = async (
   fastify.get(
     "/categories",
     {
-      preHandler: fastify.auth([fastify.authenticate])
+      preHandler: fastify.auth([fastify.authenticate]),
+      schema: {tags: ["category"]}
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const cat = await categoryController.getCategories();
@@ -30,8 +31,10 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     "/categories",
     {
       schema: {
-        body: { $ref: "CategoryPostBody#" }
-      }
+        body: { $ref: "CategoryPostBody#" },
+        tags: ["category"]
+      },
+      preHandler: fastify.auth([fastify.authenticate])
     },
     async (request, reply) => {
       const body = request.body;
@@ -41,44 +44,66 @@ export const categoriesRoutes: FastifyPluginCallback = async (
   );
 
   // GET ONE Category
-  fastify.get<{ Params: CategoryParamId }>("/categories/:categoryID", async (request, reply) => {
-    const { categoryID } = request.params;
-    const category = await categoryController.getCategoryByID(Number(categoryID));
-    console.log(category);
-    reply.send(category);
-  });
+  fastify.get<{ Params: CategoryParamId }>(
+    "/categories/:categoryID",
+    {
+      preHandler: fastify.auth([fastify.authenticate]),
+      schema: {
+        tags: ["category"]
+      },
+    },
+    async (request, reply) => {
+      const { categoryID } = request.params;
+      const category = await categoryController.getCategoryByID(
+        Number(categoryID)
+      );
+      reply.send(category);
+    }
+  );
 
   //UPDATE Category
   fastify.put<{ Params: CategoryParamId; Body: CategoryUpdateBody }>(
     "/categories/:categoryID",
     {
-      schema: { 
-        params: { $ref: "CategoryParamId#"},
-        body: { $ref: "CategoryUpdateBody#"},
-      }
+      preHandler: fastify.auth([fastify.authenticate]),
+      schema: {
+        params: { $ref: "CategoryParamId#" },
+        body: { $ref: "CategoryUpdateBody#" },
+        tags: ["category"],
+      },
     },
     async (request, reply) => {
       const { categoryID } = request.params;
-      const category = await categoryController.updateCategory(Number(categoryID), request.body);
+      const category = await categoryController.updateCategory(
+        Number(categoryID),
+        request.body
+      );
       reply.send(category);
     }
   );
 
   //DELETE Category
-  fastify.delete<{ Params: CategoryParamId }>("/categories/:categoryID", {
-    schema: { 
-      params: { $ref: "CategoryParamId#"},
+  fastify.delete<{ Params: CategoryParamId }>(
+    "/categories/:categoryID",
+    {
+      schema: {
+        params: { $ref: "CategoryParamId#" },
+        tags: ["category"]
+      },
+      preHandler: fastify.auth([fastify.authenticate])
+    },
+    async (request, reply) => {
+      const { categoryID } = request.params;
+      try {
+        const deletedCategory = await categoryController.deleteCategory(
+          Number(categoryID)
+        );
+        reply.send(deletedCategory);
+      } catch (error: any) {
+        reply.notFound(error.message);
+      }
     }
-  }, async (request, reply) => {
-    const { categoryID } = request.params
-    try {
-      const deletedCategory = await categoryController.deleteCategory(Number(categoryID));
-      reply.send(deletedCategory);
-    } catch (error: any) {
-      reply.notFound(error.message);
-    }
-  })
+  );
 
   done();
 };
-
