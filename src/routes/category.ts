@@ -18,7 +18,15 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     "/categories",
     {
       preHandler: fastify.auth([fastify.authenticate]),
-      schema: {tags: ["category"]}
+      schema: {
+        tags: ["category"],
+        response: {
+          200: {
+            type: "array",
+            items: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+          }
+        }
+      }
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const cat = await categoryController.getCategories();
@@ -32,6 +40,9 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     {
       schema: {
         body: { $ref: "CategoryPostBody#" },
+        response: {
+          200: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+        },
         tags: ["category"]
       },
       preHandler: fastify.auth([fastify.authenticate])
@@ -49,8 +60,11 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     {
       preHandler: fastify.auth([fastify.authenticate]),
       schema: {
-        tags: ["category"]
-      },
+        tags: ["category"],
+        response: {
+          200: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+        }
+      }
     },
     async (request, reply) => {
       const { categoryID } = request.params;
@@ -69,8 +83,8 @@ export const categoriesRoutes: FastifyPluginCallback = async (
       schema: {
         params: { $ref: "CategoryParamId#" },
         body: { $ref: "CategoryUpdateBody#" },
-        tags: ["category"],
-      },
+        tags: ["category"]
+      }
     },
     async (request, reply) => {
       const { categoryID } = request.params;

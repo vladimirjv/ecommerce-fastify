@@ -1,0 +1,37 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjozLCJlbWFpbCI6InBlZHJvQG91dGxvb2suY29tIiwiZmlyc3ROYW1lIjoiUGVkcm8iLCJsYXN0TmFtZSI6IlBhc2NhbCJ9LCJpYXQiOjE2NDg4MTkzMzF9.sanIYwIW59eXOr9w40bIAm10SdRXfN3dHMFmoYYkXbY
+
+###
+GET http://127.0.0.1:8080/ping
+
+###
+GET http://127.0.0.1:8080/api/categories HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+GET http://127.0.0.1:8080/api/categories/2 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+POST http://127.0.0.1:8080/api/categories HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "test-admin-1231"
+}
+
+###
+# Update Category
+PUT http://127.0.0.1:8080/api/categories/2 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "test-admin-updated",
+    "id": 2
+}
+###
+# Delete Category
+DELETE http://127.0.0.1:8080/api/categories/4 HTTP/1.1
+content-type: application/json

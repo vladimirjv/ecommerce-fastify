@@ -5,8 +5,15 @@ export const productsRoutes: FastifyPluginCallback = async (
   options,
   done
 ) => {
-  fastify.get("/products", {schema: {tags: ["products"]}}, (request: FastifyRequest, reply: FastifyReply) => {
-    reply.send("Hello Products");
-  });
+  fastify.get(
+    "/products",
+    {
+      schema: { tags: ["products"] },
+      preHandler: fastify.auth([fastify.authenticate])
+    },
+    (request: FastifyRequest, reply: FastifyReply) => {
+      reply.send("Hello Products");
+    }
+  );
   done();
 };

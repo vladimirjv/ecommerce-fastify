@@ -12,8 +12,7 @@ import types from "./types";
 import { swaggerConfig } from "./docs/config";
 
 const loggerOptions = { prettyPrint: true };
-const logger =
-  process.env["ENVIRONMENT"] === "development" ? loggerOptions : false;
+const logger = process.env["ENVIRONMENT"] === "development" ? loggerOptions : false;
 const accessTokenSecret = process.env["ACCESS_TOKEN_SECRET"] as string;
 
 const server: FastifyInstance = fastify({
