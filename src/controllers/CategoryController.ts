@@ -1,6 +1,6 @@
 import { Category, PrismaClient } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { CategoryDeleteBody, CategoryPostBody, CategoryUpdateBody } from "../schemas/types/CategoryBaseSchema";
+import { CategoryDeleteBody, CategoryPostBody, CategoryUpdateBody } from "../types/CategoryBaseSchema";
 
 export class CategoryController {
   private prisma: PrismaClient;

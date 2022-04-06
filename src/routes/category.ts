@@ -4,7 +4,7 @@ import {
   CategoryParamId,
   CategoryPostBody,
   CategoryUpdateBody
-} from "../schemas/types/CategoryBaseSchema";
+} from "../types/CategoryBaseSchema";
 
 export const categoriesRoutes: FastifyPluginCallback = async (
   fastify,
