@@ -1,4 +1,4 @@
-import { AdminController } from "../controllers/AdminController";
+import { AdminController } from "@/controllers";
 import { FastifyPluginCallback } from "fastify";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 

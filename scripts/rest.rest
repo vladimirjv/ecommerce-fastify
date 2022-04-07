@@ -1,7 +1,5 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjozLCJlbWFpbCI6InBlZHJvQG91dGxvb2suY29tIiwiZmlyc3ROYW1lIjoiUGVkcm8iLCJsYXN0TmFtZSI6IlBhc2NhbCJ9LCJpYXQiOjE2NDg4MTkzMzF9.sanIYwIW59eXOr9w40bIAm10SdRXfN3dHMFmoYYkXbY
 
-###
-GET http://127.0.0.1:8080/ping
 
 ###
 GET http://127.0.0.1:8080/api/categories HTTP/1.1

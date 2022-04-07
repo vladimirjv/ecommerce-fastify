@@ -1,8 +1,8 @@
 import { PrismaClient, User } from "@prisma/client";
 import { SetRequired, Merge } from "type-fest";
-import bcrypt from 'bcryptjs';
-import * as jwt from '../utils/jwt'; // Partially, gonna change to fastify decorator
 import { NotFound, Unauthorized } from "http-errors";
+import bcrypt from 'bcryptjs';
+import * as jwt from '@/utils/jwt'; // Partially, gonna change to fastify decorator
 
 type UserRegister = SetRequired<Partial<User>, "email" | "password">;
 

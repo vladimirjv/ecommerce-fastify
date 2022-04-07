@@ -1,10 +1,10 @@
 import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
-import { CategoryController } from "../controllers";
+import { CategoryController } from "@/controllers";
 import {
   CategoryParamId,
   CategoryPostBody,
   CategoryUpdateBody
-} from "../types/CategoryBaseSchema";
+} from "@/types/CategoryBaseSchema";
 
 export const categoriesRoutes: FastifyPluginCallback = async (
   fastify,
