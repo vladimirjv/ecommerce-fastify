@@ -1,10 +1,6 @@
 import { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
 import { CategoryController } from "@/controllers";
-import {
-  CategoryParamId,
-  CategoryPostBody,
-  CategoryUpdateBody
-} from "@/types/CategoryBaseSchema";
+import type { CategoryParamId, CategoryPostBody, CategoryUpdateBody } from "@/types/Categories";
 
 export const categoriesRoutes: FastifyPluginCallback = async (
   fastify,
@@ -23,7 +19,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
         response: {
           200: {
             type: "array",
-            items: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+            items: { $ref: "http://example.com/schemas/category.json/CategoryBase" }
           }
         }
       }
@@ -39,9 +35,9 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     "/categories",
     {
       schema: {
-        body: { $ref: "CategoryPostBody#" },
+        body: { $ref: "http://example.com/schemas/category.json/CategoryPostBody" },
         response: {
-          200: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+          200: { $ref: "http://example.com/schemas/category.json/CategoryBase" }
         },
         tags: ["category"]
       },
@@ -62,7 +58,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
       schema: {
         tags: ["category"],
         response: {
-          200: { $ref: "CategoryBaseSchema.json#/properties/Category" }
+          200: { $ref: "http://example.com/schemas/category.json/CategoryBase" }
         }
       }
     },
@@ -81,8 +77,8 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     {
       preHandler: fastify.auth([fastify.authenticate]),
       schema: {
-        params: { $ref: "CategoryParamId#" },
-        body: { $ref: "CategoryUpdateBody#" },
+        params: { $ref: "http://example.com/schemas/category.json/CategoryParamId" },
+        body: { $ref: "http://example.com/schemas/category.json/CategoryUpdateBody" },
         tags: ["category"]
       }
     },
@@ -101,7 +97,7 @@ export const categoriesRoutes: FastifyPluginCallback = async (
     "/categories/:categoryID",
     {
       schema: {
-        params: { $ref: "CategoryParamId#" },
+        params: { $ref: "http://example.com/schemas/category.json/CategoryParamId" },
         tags: ["category"]
       },
       preHandler: fastify.auth([fastify.authenticate])

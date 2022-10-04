@@ -5,7 +5,7 @@ import { FromSchema, JSONSchema7 } from "json-schema-to-ts";
  * @type {import("json-schema-to-ts").JSONSchema7}
  */
 export const CategorySchema = {
-  $id: "http://example.com/schemas/user.json/CategoryBase",
+  $id: "http://example.com/schemas/category.json/CategoryBase",
   type: "object",
   properties: {
     id: { type: "number" },
@@ -23,7 +23,7 @@ export const CategorySchema = {
  * @type {import("json-schema-to-ts").JSONSchema7}
  */
 export const CategoryParamIdSchema = {
-  $id: "http://example.com/schemas/user.json/CategoryParamId",
+  $id: "http://example.com/schemas/category.json/CategoryParamId",
   type: "object",
   properties: {
     categoryID: { type: "string" }
@@ -37,7 +37,7 @@ export const CategoryParamIdSchema = {
  * @type {import("json-schema-to-ts").JSONSchema7}
  */
 export const CategoryPostBodySchema = {
-  $id: "http://example.com/schemas/user.json/CategoryPostBody",
+  $id: "http://example.com/schemas/category.json/CategoryPostBody",
   type: "object",
   properties: {
     name: { type: "string" },
@@ -51,7 +51,7 @@ export const CategoryPostBodySchema = {
  * @type {import("json-schema-to-ts").JSONSchema7}
  */
 export const CategoryUpdateBodySchema = {
-  $id: "CategoryUpdateBody",
+  $id: "http://example.com/schemas/category.json/CategoryUpdateBody",
   type: "object",
   properties: {
     id: { type: "number" },
@@ -66,6 +66,7 @@ export const CategoryUpdateBodySchema = {
  * @type {import("json-schema-to-ts").JSONSchema7}
  */
 export const CategoryDeleteBodySchema = {
+  $id: "http://example.com/schemas/category.json/CategoryDeleteBodySchema",
   type: "object",
   properties: {
     id: { type: "number" },

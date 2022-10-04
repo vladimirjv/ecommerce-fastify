@@ -1,4 +1,4 @@
-import CategoryBaseSchema from "../../schemas/CategoryBaseSchema.json";
+// import CategoryBaseSchema from "../../schemas/CategoryBaseSchema.json";
 import type { FastifyInstance } from "fastify";
 import {
   CategorySchema,

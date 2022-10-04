@@ -9,7 +9,6 @@
     "json2ts": "json2ts -i ./schemas --output ./src/types --cwd ./schemas/ --$refOptions.dereference.circular=true",
     "dev": "concurrently \"npm:dev:*\" ",
     "dev:server": "nodemon --config nodemon.json src/index.ts",
-    "dev:json2ts": "nodemon --watch './schemas/**/*.json' --exec npm run json2ts",
     "db:start": "docker-compose up",
     "db:end": "docker-compose down",
     "debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import types from "./types";
+import type types from "./types";
 import fastify, { FastifyInstance } from "fastify";
 import FastifySensible from "fastify-sensible";
 import fastifyAuth from "fastify-auth";

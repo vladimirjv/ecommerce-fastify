@@ -1,6 +1,6 @@
 import { Category, PrismaClient } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { CategoryDeleteBody, CategoryPostBody, CategoryUpdateBody } from "@/types/CategoryBaseSchema";
+import type { CategoryPostBody, CategoryUpdateBody } from "@/types/Categories";
 
 export class CategoryController {
   private prisma: PrismaClient;
@@ -53,10 +53,10 @@ export class CategoryController {
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
-          throw Error("Category to delete does not exist", {cause: error});
+          throw Error("Category to delete does not exist", { cause: error });
         }
       }
-      throw Error("Unknown error", {cause: error as Error});
+      throw Error("Unknown error", { cause: error as Error });
     }
   }
 }
