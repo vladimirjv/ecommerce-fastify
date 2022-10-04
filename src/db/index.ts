@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { FastifyPluginCallback } from "fastify";
+import { FastifyPluginCallback } from "fastify/types/plugin";
 
 export interface PrismaPluginOptions {}
 

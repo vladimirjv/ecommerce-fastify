@@ -1,7 +1,7 @@
 import { PrismaClient, User } from "@prisma/client";
 import { SetRequired, Merge } from "type-fest";
 import { NotFound, Unauthorized } from "http-errors";
-import bcrypt from 'bcryptjs';
+import {hashSync, compareSync} from 'bcryptjs';
 import * as jwt from '@/utils/jwt'; // Partially, gonna change to fastify decorator
 
 type UserRegister = SetRequired<Partial<User>, "email" | "password">;
@@ -18,7 +18,7 @@ export class AdminController {
    */
   public async register(user: UserRegister): Promise<Merge<UserRegister, { token: string }>> {
     try {
-      user.password = bcrypt.hashSync(user.password as string, 8);
+      user.password = hashSync(user.password as string, 8);
       const _createdUser = await this.prisma.user.create({
         data: {
           ...user
@@ -58,7 +58,7 @@ export class AdminController {
       where: { email },
     });
     if (!user) throw new NotFound("User Does Not Exist");
-    const checkPassword = bcrypt.compareSync(password as string, user.password as string);
+    const checkPassword = compareSync(password as string, user.password as string);
     if (!checkPassword) throw new Unauthorized('Email address or password not valid')
     delete (user as Partial<typeof user>).password;
     const accessToken = await jwt.signAccessToken(user)
