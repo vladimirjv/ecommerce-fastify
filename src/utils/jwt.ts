@@ -13,7 +13,7 @@ export const signAccessToken = (payload: any) => {
   });
 };
 
-export const authenticateDecorator = async (request: FastifyRequest, reply: FastifyReply)  => { 
+export const authenticateDecorator = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     await request.jwtVerify();
   } catch (error) {

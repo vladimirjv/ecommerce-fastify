@@ -1,4 +1,3 @@
-import { FromSchema, JSONSchema7 } from "json-schema-to-ts";
 
 /**
  * @constant
@@ -74,3 +73,11 @@ export const CategoryDeleteBodySchema = {
   required: ["id"],
   additionalProperties: false
 } as const;
+
+// export default {
+//   CategorySchema,
+//   CategoryParamIdSchema,
+//   CategoryPostBodySchema,
+//   CategoryUpdateBodySchema,
+//   CategoryDeleteBodySchema,
+// };
